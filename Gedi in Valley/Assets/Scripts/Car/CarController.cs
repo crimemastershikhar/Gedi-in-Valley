@@ -2,19 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class CarController : MonoBehaviour {
 
     [SerializeField] private float speed;
+    [SerializeField] private float rotationSpeed;
 
     [SerializeField] private WheelJoint2D backWheel;
     [SerializeField] private WheelJoint2D frontWheel;
 
-    private float movement;
+    [SerializeField] private Rigidbody2D rb;
 
+    private float movement;
+    private float rotation;
 
     private void Update() {
         movement = -Input.GetAxisRaw("Vertical") * speed;
 
+        rotation = Input.GetAxisRaw("Horizontal") * rotationSpeed;
     }
 
     private void FixedUpdate() {
@@ -30,6 +35,7 @@ public class CarController : MonoBehaviour {
 
         }
 
+        rb.AddTorque(-rotation * rotationSpeed * Time.fixedDeltaTime);
     }
 
 
